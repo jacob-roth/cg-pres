@@ -32,6 +32,14 @@
 \begin{frame}
   \frametitle{motivation}
   %
+  \begin{align*}
+    Ax = b,\quad A \succ 0,\quad A=A^{\top}
+  \end{align*}
+\end{frame}
+%
+\begin{frame}
+  \frametitle{motivation}
+  %
   \pause
   \begin{block}{lifecycle of an optimization problem}
     consider $\min_x f(x)$
@@ -59,7 +67,7 @@
   \end{block}
   %
   \pause
-  \begin{block}{why i found CG frustrating}
+  \begin{block}{CG...from where?}
     \begin{itemize}
       \item presented with algorithm and prove properties about algorithm
       \item but where does CG \alert{come from}?
@@ -80,7 +88,7 @@
       \underset{x \in \mathbb{R}^n}{\text{minimize}} \quad f(x) \coloneqq \tfrac 12 x^{\top} A x - b^{\top} x
     \end{align}
     %
-    where $A \succ 0, A \in \mathbb{S}^{n}$
+    where $A \succ 0, A = A^{\top}$
   \end{block}
   %
   \pause
@@ -161,7 +169,7 @@
       \item suppose we have $n$ linearly independent vectors $\{d_0,\, d_1,\, \ldots,\, d_{n-1} \}$
       \item can we build the error in one go?
       \begin{itemize}
-        \item $e_0 = \sum_i \alpha_i d_i$ for $\alpha_i \in \mathbb{R}_+$
+        \item $e_0 = \sum_i \alpha_i d_i$ for $\alpha_i \in \mathbb{R}$
         \item easy if we know $\alpha_i$
         \item \alert{how can we find} $\alert{\alpha_i}$?
       \end{itemize}
@@ -178,6 +186,7 @@
 \begin{frame}
   \frametitle{first-order iterative methods}
   %
+  % \pause
   \begin{block}{search direction}
     \begin{itemize}
       \item \textit{first-order methods} use current (and possibly historical) gradient information to determine the next iterate
@@ -187,19 +196,20 @@
       \end{align}
       \vspace{-0.15cm}
       \begin{itemize}
-        \item gradient descent (GD): $d_k = \nabla f(x_k)$
-        \item steepest descent (SD): $d_k = \nabla f(x_k)$
-        \item coordinate descent (CD): $[d_k]_{i} = [\nabla f(x_k)]_{i}$ if $i = \hat{i}$, 0 otherwise
+        \item gradient descent (GD): $d_k = -\nabla f(x_k)$
+        \item steepest descent (SD): $d_k = -\nabla f(x_k)$
+        \item coordinate descent (CD): $[d_k]_{i} = -[\nabla f(x_k)]_{i}$ if $i = \hat{i}$, 0 otherwise
         \item \semitransp{conjugate gradient (CG)}: tbd
       \end{itemize}
     \end{itemize}
   \end{block}
   %
+  % \pause
   \begin{block}{stepsize}
     \begin{itemize}
       \item GD: $\alpha \gets \bar{\alpha} \in \mathbb{R}_+$
-      \item SD: $\alpha \gets \alpha^{\star}$ where $\alpha^{\star} = \argmin_{\alpha} f(x + \alpha d_k)$
-      \item CD: $\alpha \gets \alpha^{\star}$ where $\alpha^{\star} = \argmin_{\alpha} f(x + \alpha d_k)$ (different $d_k$)
+      \item SD: $\alpha \gets \alpha^{\star}$ where $\alpha^{\star} = \argmin_{\alpha} f(x_k + \alpha d_k)$
+      \item CD: $\alpha \gets \alpha^{\star}$ where $\alpha^{\star} = \argmin_{\alpha} f(x_k + \alpha d_k)$ (different $d_k$)
       \item \semitransp{CG: tbd}
     \end{itemize}
   \end{block}
@@ -267,7 +277,7 @@
     \begin{align}
       \hspace{-2\leftmargin}
       \label{eq:split-function-scalar}
-      f(x + e) &= f(x) + \sum_{i,j} x_i A_{i,j} e_j + \tfrac 12 \sum_{i,j} s_i A_{i,j} e_j - \sum_i b_i e_i \\
+      f(x + e) &= f(x) + \sum_{i,j} x_i A_{i,j} e_j + \tfrac 12 \sum_{i,j} d_i A_{i,j} e_j - \sum_i b_i e_i \\
       \begin{split}
         &= f(x) + \sum_{i,j} x_i A_{i,j} \sum_k \alpha_k d_{k,j} \\
         &\qquad + \tfrac 12 \sum_{i,j} \sum_k \alpha_k d_{k,i} A_{i,j}\sum_k \alpha_k d_{k,j} - \sum_i b_i \sum_k \alpha_k d_{k,i}
@@ -294,6 +304,7 @@
     %
     \begin{itemize}
       \item how can we convert to the diagonal case?
+      \pause
       \begin{itemize}
         \item change coordinates so that $\hat{x} = D^{-1}x$, and rewrite \cref{eq:quadratic-program}
       \end{itemize}
@@ -303,8 +314,8 @@
         f(\hat{x}) = \tfrac 12 \hat{x}^{\top} (D^{\top} A D) \hat{x} - (D^{\top}b)^{\top} \hat{x}
       \end{align}
       %
-      \item by conjugacy, $D^{\top} A D$ is diagonal!
-      \item proceed by solving $n$ 1-dimensional minimization problems along each coordinate direction of $\hat{x}$ \cite{nocedal_numerical_2006}
+      \item \pause by conjugacy, $D^{\top} A D$ is diagonal!
+      \item \pause proceed by solving $n$ 1-dimensional minimization problems along each coordinate direction of $\hat{x}$ \cite{nocedal_numerical_2006}
     \end{itemize}
     %
   \end{alertblock}
