@@ -1,0 +1,106 @@
+%%%
+%%% packages
+%%%
+
+\usetheme{breakout}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,bm,mathtools}
+\usepackage{pgfplots, tikz}
+\usetikzlibrary{calc}
+\usepackage{graphicx}
+\usepackage{anyfontsize}
+\usepackage{xcolor}
+\usepackage{algorithm2e}
+\usepackage{hyperref}
+\usepackage[capitalise]{cleveref}
+
+%%%
+%%% plotting
+%%%
+
+\graphicspath{{figures/}}
+\pgfplotsset{compat=1.14}
+\usetikzlibrary{arrows.meta,
+                bending,
+                intersections,
+                quotes,
+                shapes.geometric}
+
+%%%
+%%% variables
+%%%
+
+\def \tighten {0.2cm}
+
+%%%
+%%% beamer template
+%%%
+
+\setbeamertemplate{theorems}[numbered]
+\newcommand{\semitransp}[2][35]{\color{fg!#1}#2}
+
+% parskip
+\setlength\parindent{0pt}
+\setlength\parskip{6pt}
+
+%%%
+%%% theorems
+%%%
+
+\theoremstyle{plain}
+\newtheorem{assumption}{Assumption}
+\newtheorem*{assumption*}{Assumption}
+
+%%%
+%%% hyperlinks etc
+%%%
+
+\hypersetup{
+	linktoc=all,
+	colorlinks=true,
+	linkcolor={magenta},
+	filecolor=magenta,
+	urlcolor=magenta,
+	citecolor={green!50!black},
+}
+
+%%%
+%%% math operators
+%%%
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\diver}{div}
+
+%%%
+%%% custom symbols
+%%%
+
+% << x >> double angle norm
+\DeclareFontFamily{OMX}{MnSymbolE}{}
+\DeclareFontShape{OMX}{MnSymbolE}{m}{n}{
+    <-6>  MnSymbolE5
+   <6-7>  MnSymbolE6
+   <7-8>  MnSymbolE7
+   <8-9>  MnSymbolE8
+   <9-10> MnSymbolE9
+  <10-12> MnSymbolE10
+  <12->   MnSymbolE12}{}
+\DeclareSymbolFont{mnlargesymbols}{OMX}{MnSymbolE}{m}{n}
+\SetSymbolFont{mnlargesymbols}{bold}{OMX}{MnSymbolE}{b}{n}
+\DeclareMathDelimiter{\llangle}{\mathopen}{mnlargesymbols}{'164}{mnlargesymbols}{'164}
+\DeclareMathDelimiter{\rrangle}{\mathclose}{mnlargesymbols}{'171}{mnlargesymbols}{'171}
+
+%%%
+%%% table of contents
+%%%
+
+\AtBeginSection[]
+{
+\setbeamertemplate{section in toc shaded}[default][40]
+\begin{frame}<beamer>
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+\end{frame}
+}
